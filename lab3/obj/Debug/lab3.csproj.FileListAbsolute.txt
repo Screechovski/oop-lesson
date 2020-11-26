@@ -1,0 +1,7 @@
+E:\oop-lesson\lab3\bin\Debug\lab3.exe.config
+E:\oop-lesson\lab3\bin\Debug\lab3.exe
+E:\oop-lesson\lab3\bin\Debug\lab3.pdb
+E:\oop-lesson\lab3\obj\Debug\lab3.csprojAssemblyReference.cache
+E:\oop-lesson\lab3\obj\Debug\lab3.csproj.CoreCompileInputs.cache
+E:\oop-lesson\lab3\obj\Debug\lab3.exe
+E:\oop-lesson\lab3\obj\Debug\lab3.pdb
