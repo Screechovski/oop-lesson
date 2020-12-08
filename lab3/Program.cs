@@ -9,9 +9,9 @@ namespace lab3
 {
     class chair
     {
-        public int chairHeight;
-        public int chairLegsLenght;
-        public string chairMaterial;
+        private int chairHeight;
+        private int chairLegsLenght;
+        private string chairMaterial;
         public chair (int _height, int _legs, string _material)
         {
             chairHeight = _height;

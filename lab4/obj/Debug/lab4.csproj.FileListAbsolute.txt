@@ -1,0 +1,7 @@
+E:\oop-lesson\lab4\bin\Debug\lab4.exe.config
+E:\oop-lesson\lab4\bin\Debug\lab4.exe
+E:\oop-lesson\lab4\bin\Debug\lab4.pdb
+E:\oop-lesson\lab4\obj\Debug\lab4.csprojAssemblyReference.cache
+E:\oop-lesson\lab4\obj\Debug\lab4.csproj.CoreCompileInputs.cache
+E:\oop-lesson\lab4\obj\Debug\lab4.exe
+E:\oop-lesson\lab4\obj\Debug\lab4.pdb
