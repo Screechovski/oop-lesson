@@ -1,0 +1,7 @@
+E:\oop-lesson\lab5\bin\Debug\lab5.exe.config
+E:\oop-lesson\lab5\bin\Debug\lab5.exe
+E:\oop-lesson\lab5\bin\Debug\lab5.pdb
+E:\oop-lesson\lab5\obj\Debug\lab5.csprojAssemblyReference.cache
+E:\oop-lesson\lab5\obj\Debug\lab5.csproj.CoreCompileInputs.cache
+E:\oop-lesson\lab5\obj\Debug\lab5.exe
+E:\oop-lesson\lab5\obj\Debug\lab5.pdb
