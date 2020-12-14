@@ -2,52 +2,37 @@
 
 namespace lab4
 {
-    class CypressTrees
+    class Wood
     {
-        private string type = "shrubby";
-        public string GetType
+        protected float height;
+        protected float width;
+
+        public void SetHeight(float _h)
         {
-            get { return type; }
-            set { type = value; }
+            this.height = _h;
+        }
+        public void SetWidth(float _w)
+        {
+            this.width = _w;
         }
     }
-    class ConiferousTrees : CypressTrees
+    class ConiferousTrees : Wood
     {
-        private string leafType = "needleLike";
-        private string crownColor = "green";
+        protected string type = "conifers";
 
-        public string GetLeafType
+        public string GetTypeWood()
         {
-            get { return leafType; }
-            set { leafType = value; }
-        }
-
-        public string GetCrownColor
-        {
-            get { return crownColor; }
-            set { crownColor = value; }
+            return this.type;
         }
     }
-    class Wood : ConiferousTrees
+
+    class CypressTrees : ConiferousTrees
     {
-        private float woodHeight;
-        private int woodAge;
-        public Wood (float _height, int _age)
-        {
-            woodHeight = _height;
-            woodAge = _age;
-        }
+        protected Boolean bushplant = true;
 
-        public float GetWoodHeight
+        public Boolean GetBushplant()
         {
-            get { return woodHeight; }
-            set { woodHeight = value; }
-        }
-
-        public int GetWoodAge
-        {
-            get { return woodAge; }
-            set { woodAge = value; }
+            return this.bushplant;
         }
     }
 
@@ -55,11 +40,18 @@ namespace lab4
     {
         static void Main(string[] args)
         {
-            Wood thujaTree = new Wood(20.75f, 5);
+            Wood classicWood = new Wood();
+            ConiferousTrees coniferousWood = new ConiferousTrees();
+            CypressTrees cypressWood = new CypressTrees();
 
-            Console.WriteLine(thujaTree.GetType);
-            Console.WriteLine(thujaTree.GetLeafType);
-            Console.WriteLine(thujaTree.GetWoodAge);
+            classicWood.SetHeight(50f);
+
+            coniferousWood.SetWidth(20f);
+            Console.WriteLine(coniferousWood.GetTypeWood());
+
+            cypressWood.SetHeight(155f);
+            Console.WriteLine(cypressWood.GetTypeWood());
+            Console.WriteLine(cypressWood.GetBushplant());
 
             Console.Read();
         }
