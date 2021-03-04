@@ -1,0 +1,7 @@
+C:\Users\webde\source\repos\1.5-Некрасов\bin\Debug\1.5-Некрасов.exe.config
+C:\Users\webde\source\repos\1.5-Некрасов\bin\Debug\1.5-Некрасов.exe
+C:\Users\webde\source\repos\1.5-Некрасов\bin\Debug\1.5-Некрасов.pdb
+C:\Users\webde\source\repos\1.5-Некрасов\obj\Debug\1.5-Некрасов.csprojAssemblyReference.cache
+C:\Users\webde\source\repos\1.5-Некрасов\obj\Debug\1.5-Некрасов.csproj.CoreCompileInputs.cache
+C:\Users\webde\source\repos\1.5-Некрасов\obj\Debug\1.5-Некрасов.exe
+C:\Users\webde\source\repos\1.5-Некрасов\obj\Debug\1.5-Некрасов.pdb
