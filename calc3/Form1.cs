@@ -16,63 +16,65 @@ namespace calc2
         {
             InitializeComponent();
         }
+        /// <summary>
+        /// Выделяет из строки список чисел и список операторов
+        /// </summary>
+        /// <param name="_line"></param>
+        /// <returns>Результат</returns>
+        private double getNumAndfunctionsArrayFromString (string _line)
+        {
+            List<double> numbers = new List<double>();
+            List<char> functions = new List<char>();
 
-        private double getNumAndOpsFromString (string _line)
-        { // выделяет из строки список чисел и список операторов
-            List<double> _numbers = new List<double>();
-            List<char> _operators = new List<char>();
+            char[] numbersArray = new char[] { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', ',', '(', ')'};
+            char[] functionsArray = new char[] { '*', '/', '+', '*', '-', '^', '(', ')' };
 
-            char[] nums = new char[] { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', ',', '(', ')'};
-            char[] ops = new char[] { '*', '/', '+', '*', '-', '^', '(', ')' };
+            string[] numbersArraySplit = _line.Split(functionsArray);
+            string[] functionsArraySplit = _line.Split(numbersArray);
 
-            string[] _numbers_s = _line.Split(ops);
-            string[] _operators_s = _line.Split(nums);
-
-            for (int tmpA = 0; tmpA < _numbers_s.Length; tmpA++)
+            for (int tmpA = 0; tmpA < numbersArraySplit.Length; tmpA++)
             {
-                if (_numbers_s[tmpA] != "" && _numbers_s[tmpA] != " ")
+                if (numbersArraySplit[tmpA] != "" && numbersArraySplit[tmpA] != " ")
                 {
-                    _numbers.Add(Convert.ToDouble(_numbers_s[tmpA]));
+                    numbers.Add(Convert.ToDouble(numbersArraySplit[tmpA]));
                 }
             }
-            for (int tmpB = 0; tmpB < _operators_s.Length; tmpB++)
+            for (int tmpB = 0; tmpB < functionsArraySplit.Length; tmpB++)
             {
-                if (_operators_s[tmpB] != "" && _operators_s[tmpB] != " ")
+                if (functionsArraySplit[tmpB] != "" && functionsArraySplit[tmpB] != " ")
                 {
-                    if(_operators_s[tmpB].Length == 2 && _operators_s[tmpB][1] == '-')
+                    if(functionsArraySplit[tmpB].Length == 2 && functionsArraySplit[tmpB][1] == '-')
                     {
-                        _numbers[tmpB] *= -1;
-                        _operators.Add(Convert.ToChar(_operators_s[tmpB][0]));
+                        numbers[tmpB] *= -1;
+                        functions.Add(Convert.ToChar(functionsArraySplit[tmpB][0]));
                     } else
                     {
-                        _operators.Add(Convert.ToChar(_operators_s[tmpB]));
+                        functions.Add(Convert.ToChar(functionsArraySplit[tmpB]));
                     }
                 }
             }
 
-            if (_numbers.Count - 1 == _operators.Count)
+            if (numbers.Count - 1 == functions.Count)
             {
-                return calculator(_numbers, _operators);
-            } else if (_numbers.Count  == _operators.Count && _operators[0] == '-')
+                return calculator(numbers, functions);
+            } else if (numbers.Count  == functions.Count && functions[0] == '-')
             {
-                _numbers[0] *= -1;
-                _operators.Remove(_operators[0]);
-                return calculator(_numbers, _operators);
+                numbers[0] *= -1;
+                functions.Remove(functions[0]);
+                return calculator(numbers, functions);
             } else
             {
-                return 0;
+                return 0.0;
             }
         }
 
         private double calculator(List<double> _num, List<char> _oper)
         {// ищет операторы по приоритету, вызывает метод выполняющий операцию, подставляет результат вместо чисел, и рекурсивно вызывается ещё n-раз
-            
-            
             for (int i = 0; i < _oper.Count; i++)
             {
                 if (_oper[i] == '^')
                 {
-                    _num[i] = doOperation(_num[i], _num[i + 1], _oper[i]);
+                    _num[i] = DoOperation(_num[i], _num[i + 1], _oper[i]);
                     _num.Remove(_num[i + 1]);
                     _oper.Remove(_oper[i]);
                     calculator(_num, _oper);
@@ -82,7 +84,7 @@ namespace calc2
             {
                 if (_oper[i] == '*' || _oper[i] == '/')
                 {
-                    _num[i] = doOperation(_num[i], _num[i + 1], _oper[i]);
+                    _num[i] = DoOperation(_num[i], _num[i + 1], _oper[i]);
                     _num.Remove(_num[i + 1]);
                     _oper.Remove(_oper[i]);
                     calculator(_num, _oper);
@@ -90,15 +92,21 @@ namespace calc2
             }
             for (int i = 0; i < _oper.Count; i++)
             {
-                _num[i] = doOperation(_num[i], _num[i + 1], _oper[i]);
+                _num[i] = DoOperation(_num[i], _num[i + 1], _oper[i]);
                 _num.Remove(_num[i + 1]);
                 _oper.Remove(_oper[i]);
                 calculator(_num, _oper);
             }
             return _num[0];
         }
-
-        private double doOperation (double _x, double _y, char _operator)
+        /// <summary>
+        /// Подсчет классических математических операций типа X+Y
+        /// </summary>
+        /// <param name="_x">Первый операнд</param>
+        /// <param name="_y">Второй операнд операнд</param>
+        /// <param name="_operator">Тип операции (+,-,*,/,^)</param>
+        /// <returns>Результат операции с типом double</returns>
+        private double DoOperation (double _x, double _y, char _operator)
         {   // операции + - * / ^   
 
             switch (_operator)
@@ -117,8 +125,13 @@ namespace calc2
                     return 0;
             }
         }
-
-        private double doOperationTring (string _tr, double _x)
+        /// <summary>
+        /// Подсчет тригонометрических операций типа Cos(X)
+        /// </summary>
+        /// <param name="_tr">Тип операции (cos,sin,ctg,tg)</param>
+        /// <param name="_x">Операнд</param>
+        /// <returns>Результат операции с типом double</returns>
+        private double DoOperation (string _tr, double _x)
         {
             switch (_tr)
             {
@@ -134,9 +147,12 @@ namespace calc2
                     return 0;
             }
         }
-
-        private void lastOperationInLabel (string textLine)
-        {// добивление текста в верхний лэблэ
+        /// <summary>
+        /// Добавление операции в список операций
+        /// </summary>
+        /// <param name="textLine">Операция которую хотим добавить</param>
+        private void AddLastOperationInLabel (string textLine)
+        {
             lastOperationBox.Items.Add(textLine);
         }
 
@@ -181,6 +197,7 @@ namespace calc2
 
         private double bracketParser(string _line)
         {
+            //MessageBox.Show(_line);
             for (int indexMain = 0; indexMain < _line.Length; indexMain++)
             {
                 if (_line[indexMain] == ')')
@@ -190,14 +207,14 @@ namespace calc2
                         if (_line[indexSubMain] == '(')
                         {
                             string tmpSubLine = _line.Substring(indexSubMain, indexMain - indexSubMain + 1);
-                            double tmpResult = getNumAndOpsFromString(tmpSubLine.Trim('(', ')'));
-
+                            double tmpResult = getNumAndfunctionsArrayFromString(tmpSubLine.Trim('(', ')'));
+                            MessageBox.Show(tmpResult.ToString());
                             return bracketParser(_line.Replace(tmpSubLine, tmpResult.ToString()));
                         }
                     }
                 }
             }
-            return getNumAndOpsFromString(_line);
+            return getNumAndfunctionsArrayFromString(_line);
         }
 
         private void mainTextBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -241,9 +258,13 @@ namespace calc2
                 mainTextBox.Text = mainTextBox.Text.Remove(mainTextBox.Text.Length - 1);
             }
         }
-
+        /// <summary>
+        /// Метод вызывающийся по нажатию на кнопки: + - * / ^
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button14_Click(object sender, EventArgs e)
-        {   // кнопки + - * / ^
+        {
             Button btn = (Button)sender;
 
             if (mainTextBox.Text != "" && !checkForLastOperator(mainTextBox.Text[mainTextBox.Text.Length - 1])) // добавить проверку последнего символа на оператор
@@ -323,24 +344,23 @@ namespace calc2
                     MessageBox.Show("Проверьте кол-во скобок");
                     return;
                 }
+                double tmpResult = bracketParser(mainTextBox.Text);
                 if (prelabel.Text == "")
                 {
-                    double tmpResult = bracketParser(mainTextBox.Text);
-                    lastOperationInLabel(mainTextBox.Text + "=" + tmpResult);
+                    AddLastOperationInLabel(mainTextBox.Text + "=" + tmpResult);
                     mainTextBox.Text = tmpResult.ToString();
                 }
                 else
                 {
-                    double tmpResult = bracketParser(mainTextBox.Text);
-                    double tmpA = doOperationTring(prelabel.Text, tmpResult);
+                    double tmpA = DoOperation(prelabel.Text, tmpResult);
 
                     if (mainTextBox.Text != tmpResult.ToString())
                     {
-                        lastOperationInLabel($"{prelabel.Text}({mainTextBox.Text})={prelabel.Text}({tmpResult})=");
+                        AddLastOperationInLabel($"{prelabel.Text}({mainTextBox.Text})={prelabel.Text}({tmpResult})=");
                     }
                     else
                     {
-                        lastOperationInLabel($"{prelabel.Text}({tmpResult})={tmpA}");
+                        AddLastOperationInLabel($"{prelabel.Text}({tmpResult})={tmpA}");
                     }
 
                     mainTextBox.Text = tmpA.ToString();
