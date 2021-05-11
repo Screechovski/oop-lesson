@@ -1,0 +1,3 @@
+﻿  plusssss.cpp
+E:\oop-lesson\plusssss\plusssss.cpp(27,13): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+  plusssss.vcxproj -> E:\oop-lesson\plusssss\Debug\plusssss.exe

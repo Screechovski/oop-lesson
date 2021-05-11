@@ -19,9 +19,9 @@ namespace calc2
         /// <summary>
         /// Выделяет из строки список чисел и список операторов
         /// </summary>
-        /// <param name="_line"></param>
+        /// <param name="line"></param>
         /// <returns>Результат</returns>
-        private double getNumAndfunctionsArrayFromString (string _line)
+        private double LineParse (string line)
         {
             List<double> numbers = new List<double>();
             List<char> functions = new List<char>();
@@ -29,8 +29,8 @@ namespace calc2
             char[] numbersArray = new char[] { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', ',', '(', ')'};
             char[] functionsArray = new char[] { '*', '/', '+', '*', '-', '^', '(', ')' };
 
-            string[] numbersArraySplit = _line.Split(functionsArray);
-            string[] functionsArraySplit = _line.Split(numbersArray);
+            string[] numbersArraySplit = line.Split(functionsArray);
+            string[] functionsArraySplit = line.Split(numbersArray);
 
             for (int tmpA = 0; tmpA < numbersArraySplit.Length; tmpA++)
             {
@@ -56,71 +56,79 @@ namespace calc2
 
             if (numbers.Count - 1 == functions.Count)
             {
-                return calculator(numbers, functions);
+                return Сalculator(numbers, functions);
             } else if (numbers.Count  == functions.Count && functions[0] == '-')
             {
                 numbers[0] *= -1;
                 functions.Remove(functions[0]);
-                return calculator(numbers, functions);
+                return Сalculator(numbers, functions);
             } else
             {
                 return 0.0;
             }
         }
 
-        private double calculator(List<double> _num, List<char> _oper)
+        /// <summary>
+        /// Рабивает строку на простые математические выражения 
+        /// и вызывает метода DoOperation для их подсчета, 
+        /// и заменяет исходную строку на полученный результат
+        /// </summary>
+        /// <param name="num"></param>
+        /// <param name="oper"></param>
+        /// <returns></returns>
+        private double Сalculator(List<double> num, List<char> oper)
         {// ищет операторы по приоритету, вызывает метод выполняющий операцию, подставляет результат вместо чисел, и рекурсивно вызывается ещё n-раз
-            for (int i = 0; i < _oper.Count; i++)
+            for (int i = 0; i < oper.Count; i++)
             {
-                if (_oper[i] == '^')
+                if (oper[i] == '^')
                 {
-                    _num[i] = DoOperation(_num[i], _num[i + 1], _oper[i]);
-                    _num.Remove(_num[i + 1]);
-                    _oper.Remove(_oper[i]);
-                    calculator(_num, _oper);
+                    num[i] = DoOperation(num[i], num[i + 1], oper[i]);
+                    num.Remove(num[i + 1]);
+                    oper.Remove(oper[i]);
+                    Сalculator(num, oper);
                 }
             }
-            for (int i = 0; i < _oper.Count; i++)
+            for (int i = 0; i < oper.Count; i++)
             {
-                if (_oper[i] == '*' || _oper[i] == '/')
+                if (oper[i] == '*' || oper[i] == '/')
                 {
-                    _num[i] = DoOperation(_num[i], _num[i + 1], _oper[i]);
-                    _num.Remove(_num[i + 1]);
-                    _oper.Remove(_oper[i]);
-                    calculator(_num, _oper);
+                    num[i] = DoOperation(num[i], num[i + 1], oper[i]);
+                    num.Remove(num[i + 1]);
+                    oper.Remove(oper[i]);
+                    Сalculator(num, oper);
                 }
             }
-            for (int i = 0; i < _oper.Count; i++)
+            for (int i = 0; i < oper.Count; i++)
             {
-                _num[i] = DoOperation(_num[i], _num[i + 1], _oper[i]);
-                _num.Remove(_num[i + 1]);
-                _oper.Remove(_oper[i]);
-                calculator(_num, _oper);
+                num[i] = DoOperation(num[i], num[i + 1], oper[i]);
+                num.Remove(num[i + 1]);
+                oper.Remove(oper[i]);
+                Сalculator(num, oper);
             }
-            return _num[0];
+            return num[0];
         }
         /// <summary>
         /// Подсчет классических математических операций типа X+Y
         /// </summary>
-        /// <param name="_x">Первый операнд</param>
-        /// <param name="_y">Второй операнд операнд</param>
-        /// <param name="_operator">Тип операции (+,-,*,/,^)</param>
+        /// <param name="x">Первый операнд</param>
+        /// <param name="y">Второй операнд операнд</param>
+        /// <param name="localOperator">Тип операции (+,-,*,/,^)</param>
         /// <returns>Результат операции с типом double</returns>
-        private double DoOperation (double _x, double _y, char _operator)
+        private double DoOperation (double x, double y, char localOperator)
         {   // операции + - * / ^   
 
-            switch (_operator)
+            switch (localOperator)
             {
                 case '+':
-                    return _x + _y;
+                    return x + y;
                 case '/':
-                    return _x / _y;
+                    return x / y;
                 case '*':
-                    return _x * _y;
+                    return x * y;
                 case '-':
-                    return _x - _y;
+                    return x - y;
                 case '^':
-                    return Math.Pow(_x, _y);
+                    return Math.Pow(x, y);
                 default:
                     return 0;
             }
@@ -128,21 +136,21 @@ namespace calc2
         /// <summary>
         /// Подсчет тригонометрических операций типа Cos(X)
         /// </summary>
-        /// <param name="_tr">Тип операции (cos,sin,ctg,tg)</param>
-        /// <param name="_x">Операнд</param>
+        /// <param name="tr">Тип операции (cos,sin,ctg,tg)</param>
+        /// <param name="x">Операнд</param>
         /// <returns>Результат операции с типом double</returns>
-        private double DoOperation (string _tr, double _x)
+        private double DoOperation (string tr, double x)
         {
-            switch (_tr)
+            switch (tr)
             {
                 case "cos":
-                    return Math.Cos(_x);
+                    return Math.Cos(x);
                 case "sin":
-                    return Math.Sin(_x);
+                    return Math.Sin(x);
                 case "ctg":
-                    return  1 / Math.Tan(_x);
+                    return  1 / Math.Tan(x);
                 case "tg":
-                    return Math.Tan(_x);
+                    return Math.Tan(x);
                 default:
                     return 0;
             }
@@ -155,27 +163,12 @@ namespace calc2
         {
             lastOperationBox.Items.Add(textLine);
         }
-
-        private bool checkCurrentSymbolForOperator(char symbol)
-        {   // проверка всей строки на наличие хоть 1 символа
-            switch (symbol)
-            {
-                case '+':
-                    return false;
-                case '/':
-                    return false;
-                case '*':
-                    return false;
-                case '-':
-                    return false;
-                case '^':
-                    return false;
-                default:
-                    return true;
-            }
-        }
-
-        private bool checkForLastOperator(char symbol)
+        /// <summary>
+        /// Проверяет символ на оператор '+','*','-','/','^'
+        /// </summary>
+        /// <param name="symbol"></param>
+        /// <returns></returns>
+        private bool IsOperator(char symbol)
         {   // проверка последнего символа на + - * / ^
 
             switch (symbol)
@@ -194,27 +187,53 @@ namespace calc2
                     return false;
             }
         }
-
-        private double bracketParser(string _line)
+        /// <summary>
+        /// Разбивает строку с круглыми скобками и вызывает функцию LineParse для подсчета, заменяет исходню подстроку на результат подсчета
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns></returns>
+        private double BracketParser(string line)
         {
-            //MessageBox.Show(_line);
-            for (int indexMain = 0; indexMain < _line.Length; indexMain++)
+            for (int indexMain = 0; indexMain < line.Length; indexMain++)
             {
-                if (_line[indexMain] == ')')
+                if (line[indexMain] == ')')
                 {
                     for (int indexSubMain = indexMain; indexSubMain >= 0; indexSubMain--)
                     {
-                        if (_line[indexSubMain] == '(')
+                        if (line[indexSubMain] == '(')
                         {
-                            string tmpSubLine = _line.Substring(indexSubMain, indexMain - indexSubMain + 1);
-                            double tmpResult = getNumAndfunctionsArrayFromString(tmpSubLine.Trim('(', ')'));
-                            MessageBox.Show(tmpResult.ToString());
-                            return bracketParser(_line.Replace(tmpSubLine, tmpResult.ToString()));
+                            string tmpSubLine = line.Substring(indexSubMain, indexMain - indexSubMain + 1);
+                            double tmpResult = LineParse(tmpSubLine.Trim('(', ')'));
+
+                            return BracketParser(line.Replace(tmpSubLine, tmpResult.ToString()));
                         }
                     }
                 }
             }
-            return getNumAndfunctionsArrayFromString(_line);
+            return LineParse(line);
+        }
+        /// <summary>
+        /// Проверяет количество '(' и ')'
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns></returns>
+        private bool CheckBrackets(string line)
+        {
+            int numberPairsBrackets = 0;
+
+            foreach (var letter in line)
+            {
+                if (letter == ')')
+                {
+                    numberPairsBrackets++;
+                }
+                else if (letter == '(')
+                {
+                    numberPairsBrackets--;
+                }
+            }
+
+            return numberPairsBrackets == 0;
         }
 
         private void mainTextBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -267,7 +286,7 @@ namespace calc2
         {
             Button btn = (Button)sender;
 
-            if (mainTextBox.Text != "" && !checkForLastOperator(mainTextBox.Text[mainTextBox.Text.Length - 1])) // добавить проверку последнего символа на оператор
+            if (mainTextBox.Text != "" && !IsOperator(mainTextBox.Text[mainTextBox.Text.Length - 1])) // добавить проверку последнего символа на оператор
             {
                 mainTextBox.Text += btn.Text;
                 setDot = false;
@@ -305,7 +324,7 @@ namespace calc2
 
         private void button2_Click(object sender, EventArgs e)
         {   // кнопка x^y
-            if (mainTextBox.Text != "" && !checkForLastOperator(mainTextBox.Text[mainTextBox.Text.Length - 1])) // добавить проверку последнего символа на оператор
+            if (mainTextBox.Text != "" && !IsOperator(mainTextBox.Text[mainTextBox.Text.Length - 1])) // добавить проверку последнего символа на оператор
             {
                 mainTextBox.Text += "^";
                 setDot = false;
@@ -339,12 +358,12 @@ namespace calc2
 
             if (mainTextBox.Text != "")
             {
-                if (rightBracketCount != leftBracketCount)
+                if (!CheckBrackets(mainTextBox.Text))
                 {
                     MessageBox.Show("Проверьте кол-во скобок");
                     return;
                 }
-                double tmpResult = bracketParser(mainTextBox.Text);
+                double tmpResult = BracketParser(mainTextBox.Text);
                 if (prelabel.Text == "")
                 {
                     AddLastOperationInLabel(mainTextBox.Text + "=" + tmpResult);
@@ -397,8 +416,7 @@ namespace calc2
 
         private void button6_Click(object sender, EventArgs e)
         {
-            if (textBox3.Text != "")
-                mainTextBox.Text += textBox3.Text;
+            if (textBox3.Text != "") mainTextBox.Text += textBox3.Text;
         }
 
         private void button5_Click(object sender, EventArgs e)

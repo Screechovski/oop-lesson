@@ -1,0 +1,3 @@
+﻿  plusRec.cpp
+E:\oop-lesson\plusRec\plusRec.cpp(10,25): warning C4244: инициализация: преобразование "double" в "int", возможна потеря данных
+  plusRec.vcxproj -> E:\oop-lesson\plusRec\Debug\plusRec.exe

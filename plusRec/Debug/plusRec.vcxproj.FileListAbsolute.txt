@@ -1,0 +1,2 @@
+E:\oop-lesson\plusRec\Debug\plusRec.exe
+E:\oop-lesson\plusRec\Debug\plusRec.pdb
