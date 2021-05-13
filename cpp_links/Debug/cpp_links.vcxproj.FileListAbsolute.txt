@@ -1,0 +1,2 @@
+C:\Users\webde\source\repos\cpp_links\Debug\cpp_links.exe
+C:\Users\webde\source\repos\cpp_links\Debug\cpp_links.pdb
