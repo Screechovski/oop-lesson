@@ -1,5 +1,4 @@
 ﻿#include <iostream>
-#include <vector>
 #include <ctime>
 
 void shakeSort(int arr[], int arrLength) {
