@@ -1,0 +1,2 @@
+E:\oop-lesson\cpp8_part2\Debug\cpp8_part2.exe
+E:\oop-lesson\cpp8_part2\Debug\cpp8_part2.pdb
