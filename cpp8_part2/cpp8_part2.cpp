@@ -1,27 +1,25 @@
 ﻿#include <iostream>
 
-char* F11(char* c, int& m) {
-    char* b = NULL;
-
-    for (m = 0; *c != 0; c++) {
-        if (*c == c[1]) {
-            for (int k = 2; *c == c[k]; k++) {
-                if (k > m) m = k, b = c;
-            }
+void F15(char* c) {
+    for (char* p = c; *p != '\0'; p++) {
+        for (p--; p > c; p--, c++)
+        {
+            char s; s = *p; *p = *c; *c = s;
         }
     }
-    return b;
 }
 
 int main() {
-    int num = 15;
-    int* numLink = &num;
 
-    char letters[] = "aasdasd";
+    char letter = 'd';
 
-    char letter = 'a';
+    std::cout << letter << std::endl;
+    std::cout << &letter << std::endl;
 
-    char* letterLink = letters;
+    F15(&letter);
 
-    printf(F11(&letter, num));
+    std::cout << letter << std::endl;
+    std::cout << &letter << std::endl;
+
+    return 0;
 }
